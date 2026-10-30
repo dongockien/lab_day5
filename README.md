@@ -69,6 +69,13 @@ lab_day5/
 
 Không cần cài Python trên máy host: mọi thứ chạy trong container.
 
+## Lấy mã nguồn
+
+```bash
+git clone https://github.com/dongockien/lab_day5.git
+cd lab_day5
+```
+
 ## Chạy
 
 Chạy từng thí nghiệm, mỗi lệnh tự dựng hệ thống, đo và lưu kết quả vào `results/`:
@@ -117,6 +124,32 @@ Mỗi chế độ: dừng RabbitMQ, gửi 5 job, bật lại RabbitMQ, chờ x�
 |---|---|---|
 | `direct` | 503 × 5 | `lost_jobs = 5`, job kẹt ở `queued` (đã ghi DB nhưng không bao giờ vào queue) |
 | `outbox` | 202 × 5 | `lost_jobs = 0`, relay phát lại các sự kiện còn trong outbox |
+
+## Kết quả đã đo
+
+Môi trường: Windows, Docker Desktop, Git Bash; RabbitMQ 3.13, PostgreSQL 16, Python 3.12; mỗi kịch bản chạy một lần. Chạy cục bộ nên chỉ dùng để so sánh tương đối.
+
+**Thí nghiệm 1: 40 job gửi cùng lúc**
+
+| Chỉ số | 1 worker | 4 worker |
+|---|---|---|
+| Tổng thời gian | 32,7 s | 8,4 s |
+| Thông lượng | 1,22 job/s (tối đa 1,25) | 4,77 job/s (tối đa 5,0) |
+| Độ trễ trung bình | 16,38 s | 4,38 s |
+| p50 / p95 / p99 | 16,40 / 30,31 / 31,55 s | 4,39 / 7,94 / 7,94 s |
+
+**Thí nghiệm 2: kill worker** (4 worker, 40 job): `lost_jobs = 0`, `redelivered_jobs = 1`, `max_attempts = 2`, `inference_runs = 41`, `latency_max = 11,60 s`.
+
+**Thí nghiệm 3: gửi trùng**: sau cả ba request `result_rows = 1`, `inference_runs = 1`, `attempts = 1`.
+
+**Thí nghiệm 4: RabbitMQ chết lúc nhận 5 job**
+
+| Chế độ | HTTP | `results_rows` | `jobs_stuck_queued` | `lost_jobs` |
+|---|---|---|---|---|
+| `direct` | 503 × 5 | 0 | 5 | 5 |
+| `outbox` | 202 × 5 | 5 | 0 | 0 |
+
+Kết quả thô nằm trong thư mục `results/`.
 
 ## Thiết kế chống mất và chống trùng
 
