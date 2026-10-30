@@ -1,0 +1,5 @@
+job_id=dup-e423275a  gửi đồng thời 2 request -> HTTP [202, 202]
+=== kết quả kiểm tra gửi trùng ===
+sau 2 request đồng thời: result_rows=1 inference_runs=1 attempts=1
+sau request thứ 3 (HTTP 202) khi job đã xong: result_rows=1 inference_runs=1 attempts=1
+RESULT                PASS (job chỉ xử lý 1 lần)

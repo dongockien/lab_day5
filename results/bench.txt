@@ -1,0 +1,22 @@
+=== bench: workers=1 jobs=40 infer=800ms ===
+accepted_jobs         40/40   (gửi xong sau 0.5s)
+completed_jobs        40/40
+total_time_s          32.7
+throughput_jobs_s     1.22   (lý thuyết tối đa 1.25)
+latency_avg_s         16.38
+latency_p50_s         16.40
+latency_p95_s         30.31
+latency_p99_s         31.55
+latency_max_s         31.85
+
+=== bench: workers=4 jobs=40 infer=800ms ===
+accepted_jobs         40/40   (gửi xong sau 0.2s)
+completed_jobs        40/40
+total_time_s          8.4
+throughput_jobs_s     4.77   (lý thuyết tối đa 5.00)
+latency_avg_s         4.38
+latency_p50_s         4.39
+latency_p95_s         7.94
+latency_p99_s         7.94
+latency_max_s         7.94
+

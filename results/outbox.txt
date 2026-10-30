@@ -1,0 +1,24 @@
+##### PUBLISH_MODE=direct
+>>> Dừng RabbitMQ
+HTTP status của 5 request: [503, 503, 503, 503, 503]
+accepted(202)=0  rejected(503)=5  khác=0
+>>> Bật lại RabbitMQ
+=== trạng thái sau khi RabbitMQ chạy lại ===
+expected_jobs         5
+results_rows          0
+jobs_stuck_queued     5   (job có trong DB nhưng chưa bao giờ vào RabbitMQ)
+outbox_pending        0
+lost_jobs             5
+
+##### PUBLISH_MODE=outbox
+>>> Dừng RabbitMQ
+HTTP status của 5 request: [202, 202, 202, 202, 202]
+accepted(202)=5  rejected(503)=0  khác=0
+>>> Bật lại RabbitMQ
+=== trạng thái sau khi RabbitMQ chạy lại ===
+expected_jobs         5
+results_rows          5
+jobs_stuck_queued     0   (job có trong DB nhưng chưa bao giờ vào RabbitMQ)
+outbox_pending        0
+lost_jobs             0
+

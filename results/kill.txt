@@ -1,0 +1,10 @@
+SENT 40 jobs - đang xử lý, có thể kill một worker ngay bây giờ
+=== kết quả kiểm tra kill worker ===
+submitted_jobs        40
+results_rows          40
+lost_jobs             0
+redelivered_jobs      1   (job phải xử lý lại vì worker chết, attempts > 1)
+max_attempts          2
+inference_runs        41   (lớn hơn submitted nghĩa là có việc bị làm lại)
+latency_max_s         11.60
+RESULT                PASS (không mất job)
